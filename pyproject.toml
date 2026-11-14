@@ -1,0 +1,23 @@
+[build-system]
+requires = ["maturin>=1.16,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "open_meteo_rs"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+
+[tool.maturin]
+python-source = "python"
+module-name = "open_meteo_rs._core"
+
+dependencies = [
+    "polars>=2.1.0",
+    "pandas>=3.1.1",
+    "pyarrow>=26.0.1",
+]

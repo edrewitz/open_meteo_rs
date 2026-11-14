@@ -1,0 +1,5 @@
+# Rust source and configuration files
+*.rs      text diff=rust
+
+# Python source, stubs, and notebooks
+*.py      text diff=python

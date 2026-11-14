@@ -1,0 +1,18 @@
+[package]
+name = "open_meteo_rs"
+version = "0.1.0"
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "open_meteo_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.29.0"
+polars = { version = "0.55.2", features = ["lazy", "strings", "temporal", "json"] }
+reqwest = { version = "0.13.5", features = ["json", "blocking", "socks"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tokio = { version = "1.54.1", features = ["full"] }
+pyo3-polars = "0.28.0"
