@@ -2,6 +2,8 @@
 /// 
 /// (C) Eric J. Drewitz 2026
 
+
+use crate::format_url::format_string;
 use polars::prelude::*;
 use serde::Deserialize;
 use serde_json::Value;
@@ -14,35 +16,32 @@ struct ApiResponse {
 }
 
 /// Fetches Open-Meteo hourly forecast data and builds a Polars DataFrame dynamically.
-pub fn fetch_weather(latitude: f64,
-                    longitude: f64,
-                    variables: Vec<String>,
-                    model: &str,
-                    days: i32,
-                    proxy: Option<&str>) -> Result<DataFrame, Box<dyn std::error::Error>> {
-    
-                    
-    let joined_vars = variables.join(",");
+pub fn fetch_weather(
+    latitude: f64,
+    longitude: f64,
+    variables: Vec<String>,
+    model: &str,
+    days: i32,
+    proxy: Option<&str>
+                ) -> Result<DataFrame, Box<dyn std::error::Error>> {
 
-
-    let url = format!("https://api.open-meteo.com/v1/forecast?\
-    latitude={latitude}&longitude={longitude}&\
-    hourly={joined_vars}&\
-    models={model}&forecast_days={days}");
-
-    let parsed: ApiResponse = if let Some(proxy_url) = proxy {
+    let url = format_string(latitude, longitude, variables, model, days);
+    let client = if let Some(proxy_url) = proxy {
         let proxy_obj = Proxy::all(proxy_url)?;
-        let client = reqwest::blocking::Client::builder()
+        reqwest::blocking::Client::builder()
             .proxy(proxy_obj)
-            .build()?;
-
-        client.get(url).send()?.json()?
+            .build()?
     } else {
-        reqwest::blocking::get(url)?.json()?
+        reqwest::blocking::Client::new()
     };
-    
-    
 
+    let response = client
+        .get(url)
+        .send()?
+        .error_for_status()?; // Returns Err(reqwest::Error) on 4xx or 5xx
+
+    let parsed: ApiResponse = response.json()?;
+    
     let mut columns: Vec<Column> = Vec::new();
 
     for (key, val) in parsed.hourly {
