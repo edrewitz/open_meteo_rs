@@ -4,6 +4,8 @@
 
 
 use crate::format_url::format_string;
+use crate::dataframe::drop_empty_cols_and_rows;
+
 use polars::prelude::*;
 use serde::Deserialize;
 use serde_json::Value;
@@ -16,7 +18,7 @@ struct ApiResponse {
 }
 
 /// Fetches Open-Meteo hourly forecast data and builds a Polars DataFrame dynamically.
-pub fn fetch_weather(
+pub fn fetch_weather_forecast(
     latitude: f64,
     longitude: f64,
     variables: Vec<String>,
@@ -88,5 +90,7 @@ pub fn fetch_weather(
             .collect()?;
     }
 
-    Ok(df)
+    let data = drop_empty_cols_and_rows(&df)?;
+
+    Ok(data)
 }

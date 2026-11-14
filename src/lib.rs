@@ -1,5 +1,6 @@
 mod format_url;
 mod retrieve;
+mod dataframe;
 
 use pyo3::prelude::*;
 
@@ -11,7 +12,7 @@ mod _core {
     use pyo3::prelude::*;
     use pyo3::exceptions::PyRuntimeError;
     use pyo3_polars::types::PyDataFrame;
-    use crate::retrieve::fetch_weather;
+    use crate::retrieve::fetch_weather_forecast;
 
     /// Formats the sum of two numbers as string.
     #[pyfunction]
@@ -24,7 +25,7 @@ mod _core {
         proxy: Option<&str>
     ) -> PyResult<PyDataFrame> {
         
-        let df = fetch_weather(latitude, longitude, variables, model, days, proxy)
+        let df = fetch_weather_forecast(latitude, longitude, variables, model, days, proxy)
                     .map_err(|e| PyRuntimeError::new_err(format!("Request failed: {:#}", e)))?;
 
     // Wrap the Polars DataFrame so it converts to a Python polars.DataFrame
