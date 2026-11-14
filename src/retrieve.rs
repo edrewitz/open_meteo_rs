@@ -5,6 +5,7 @@
 
 use crate::format_url::format_string;
 use crate::dataframe::drop_empty_cols_and_rows;
+use crate::dataframe::format_dataframe;
 
 use polars::prelude::*;
 use serde::Deserialize;
@@ -64,33 +65,9 @@ pub fn fetch_weather_forecast(
         }
     }
 
-    // Note: Use `DataFrame::new_infer_height(columns)?` if you are on Polars 0.55+
-    let mut df = DataFrame::new_infer_height(columns)?;
+    let mut df = format_dataframe(columns)?;
 
-    // Convert "time" to Datetime if present
-    if df.column("time").is_ok() {
-        df = df
-            .lazy()
-            .with_column(
-                col("time")
-                    .str()
-                    .to_datetime(
-                        Some(TimeUnit::Milliseconds),
-                        None,
-                        StrptimeOptions {
-                            format: Some("%Y-%m-%dT%H:%M".into()),
-                            strict: true,
-                            exact: true,
-                            cache: true,
-                        },
-                        lit("raise"),
-                    )
-                    .alias("time"),
-            )
-            .collect()?;
-    }
+    df = drop_empty_cols_and_rows(&df)?;
 
-    let data = drop_empty_cols_and_rows(&df)?;
-
-    Ok(data)
+    Ok(df)
 }
