@@ -1,14 +1,15 @@
-/// Formats the URL for the HTTP request
-/// 
-/// (C) Eric J. Drewitz 2026
+// Formats the URL for the HTTP request
+// 
+// (C) Eric J. Drewitz 2026
 
 use std::collections::HashMap;
 
+// Returns the URL format for the model portion of the API query
 fn get_model(model: &str) -> String {
     let models = HashMap::from([
         ("best match", "best_match"),
         ("ecmwf ifs hres 9km", "ecmwf_ifs"),
-        ("ecmwf ifs 0.25", "ecmwf_ifs025"),
+        ("ecmwf ifs 0p25", "ecmwf_ifs025"),
         ("ecmwf aifs 0p25 single", "ecmwf_aifs025_single"),
         ("cma grapes global", "cma_grapes_global"),
         ("dwd icon seamless", "dwd_icon_seamless"),
@@ -22,7 +23,20 @@ fn get_model(model: &str) -> String {
         ("meteoswiss icon seamless", "meteoswiss_icon_seamless"),
         ("meteoswiss icon ch1", "meteoswiss_icon_ch1"),
         ("meteoswiss icon ch2", "meteoswiss_icon_ch2"),
-        
+        ("ncep gfs seamless", "ncep_gfs_seamless"),
+        ("ncep gfs global", "ncep_gfs_global"),
+        ("ncep rrfs north america", "ncep_rrfs_north_america"),
+        ("ncep rrfs conus", "ncep_rrfs_conus"),
+        ("ncep nbm conus", "ncep_nbm_conus"),
+        ("ncep aigfs 0p25", "ncep_aigfs025"),
+        ("ncep hgefs 0p25 ensemble mean", "ncep_hgefs025_ensemble_mean"),
+        ("gem seamless", "cmc_gem_seamless"),
+        ("cmc gem global", "cmc_gem_gdps"),
+        ("cmc gem regional", "cmc_gem_rdps"),
+        ("cmc gem hrdps continental", "cmc_gem_hrdps"),
+        ("cmc gem hrdps west", "cmc_gem_hrdps_west"),
+        ("knmi seamless", "knmi_seamless")
+
     ]);
 
     models
@@ -31,6 +45,7 @@ fn get_model(model: &str) -> String {
         .to_string()
 }
 
+// Formats the URL for the API call 
 pub(crate) fn format_string(
     latitude: f64,
     longitude: f64,

@@ -5,7 +5,7 @@ mod dataframe;
 use pyo3::prelude::*;
 
 
-/// A Python module implemented in Rust.
+// A Python module implemented in Rust.
 #[pymodule]
 mod _core {
 

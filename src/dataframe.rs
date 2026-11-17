@@ -1,9 +1,11 @@
-/// This file hosts the functions that clean up DataFrames
-/// 
-/// (C) Eric J. Drewitz 2026
+// This file hosts the functions that clean up DataFrames
+//
+// (C) Eric J. Drewitz 2026
 
 use polars::prelude::*;
 
+// Formats our DataFrame 
+// df["time"] (String) -> df["time"] (DateTime)
 pub(crate) fn format_dataframe(columns: Vec<Column>) -> PolarsResult<DataFrame> {
     let mut df = DataFrame::new_infer_height(columns)?;
 
@@ -33,6 +35,8 @@ pub(crate) fn format_dataframe(columns: Vec<Column>) -> PolarsResult<DataFrame> 
     Ok(df)
 }
 
+
+// Drops empty columns and rows in DataFrame (same as .dropna() in Pandas)
 pub(crate) fn drop_empty_cols_and_rows(df: &DataFrame) -> PolarsResult<DataFrame> {
     let height = df.height();
 

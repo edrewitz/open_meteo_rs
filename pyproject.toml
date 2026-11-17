@@ -3,7 +3,7 @@ requires = ["maturin>=1.7,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "open_meteo_rs"
+name = "openmeteoapi_rs"
 requires-python = ">=3.10"
 dynamic = ["version"]
 classifiers = [
@@ -19,4 +19,4 @@ dependencies = [
 
 [tool.maturin]
 python-source = "python"
-module-name = "open_meteo_rs._core"
+module-name = "openmeteoapi_rs._core"
