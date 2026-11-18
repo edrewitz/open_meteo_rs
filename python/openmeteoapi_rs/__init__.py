@@ -1,1 +1,1 @@
-from .retrieve import get_forecast
+from .retrieve import get_hourly_forecast

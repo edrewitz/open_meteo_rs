@@ -3,7 +3,7 @@ This file is our Python interface with the client's Rust core.
 
 (C) Eric J. Drewitz 2026
 """
-from ._core import get_forecast as fetch_forecast
+from ._core import get_hourly_forecast as fetch_hourly_forecast
 
 
 def get_hourly_forecast(
@@ -235,7 +235,7 @@ def get_hourly_forecast(
      
     """
     
-    df = fetch_forecast(latitude,
+    df = fetch_hourly_forecast(latitude,
                       longitude,
                       variables,
                       model,
