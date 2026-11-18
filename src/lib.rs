@@ -35,7 +35,9 @@ use crate::retrieve::fetch_weather_forecast;
 /// # Examples
 /// 
 /// ```
-/// // Retrieve the latest GFS 0.25x0.25 Degree 2-meter temperature and relative humidity forecast for Islip Mac Arthur Airport
+/// // Retrieve the latest GFS 0.25x0.25 Degree Forecast
+/// // Variables: 2-meter temperature and relative humidity 
+/// // Location: Islip Mac Arthur Airport
 /// 
 /// // Imports
 /// use openmeteoapi_rs::get_forecast;
