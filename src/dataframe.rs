@@ -32,6 +32,16 @@ pub(crate) fn format_dataframe(columns: Vec<Column>) -> PolarsResult<DataFrame> 
             .collect()?;
     }
 
+    let mut col_names: Vec<&str> = vec!["time"];
+    col_names.extend(
+        df.get_column_names()
+            .into_iter()
+            .map(|s| s.as_str())
+            .filter(|&name| name != "time"),
+    );
+
+    let df = df.select(col_names)?;
+
     Ok(df)
 }
 

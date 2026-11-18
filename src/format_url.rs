@@ -4,6 +4,21 @@
 
 use std::collections::HashMap;
 
+// Returns the wind speed units
+fn wind_speed_unit(unit: &str) -> String {
+    let units = HashMap::from([
+        ("kilometers per hour", "kmh"),
+        ("meters per second", "ms"),
+        ("miles per hour", "mph"),
+        ("knots", "kn"),
+    ]);
+
+    units
+        .get(unit.to_lowercase().as_str())
+        .unwrap_or(&"kmh")
+        .to_string()
+}
+
 // Returns the URL format for the model portion of the API query
 fn get_model(model: &str) -> String {
     let models = HashMap::from([
@@ -35,7 +50,28 @@ fn get_model(model: &str) -> String {
         ("cmc gem regional", "cmc_gem_rdps"),
         ("cmc gem hrdps continental", "cmc_gem_hrdps"),
         ("cmc gem hrdps west", "cmc_gem_hrdps_west"),
-        ("knmi seamless", "knmi_seamless")
+        ("knmi seamless", "knmi_seamless"),
+        ("knmi harmonie arome europe", "knmi_harmonie_arome_europe"),
+        ("knmi harmonie arome netherlands", "knmi_harmonie_arome_netherlands"),
+        ("geosphere seamless", "geosphere_seamless"),
+        ("geosphere claef austria", "geosphere_claef_austria"),
+        ("jma seamless", "jma_seamless"),
+        ("jma msm", "jma_msm"),
+        ("jma gsm", "jma_gsm"),
+        ("meteofrance seamless", "meteofrance_seamless"),
+        ("meteofrance arpege world", "meteofrance_arpege_world"),
+        ("meteofrance arpege europe", "meteofrance_arpege_europe"),
+        ("meteofrance arome france", "meteofrance_arome_france"),
+        ("meteofrance arome france hd", "meteofrance_arome_france_hd"),
+        ("dmi seamless", "dmi_seamless"),
+        ("dmi harmonie arome europe", "dmi_harmonie_arome_europe"),
+        ("chmi aladin seamless", "chmi_aladin_seamless"),
+        ("chmi aladin central europe 2km", "chmi_aladin_central_europe_2km"),
+        ("chmi aladin cz 1km", "chmi_aladin_cz_1km"),
+        ("italia meteo arpae icon 2i", "italia_meteo_arpae_icon_2i"),
+        ("uk met office seamless", "ukmo_seamless"),
+        ("uk met office global 10km", "ukmo_global_deterministic_10km"),
+        ("uk met office uk 2km", "ukmo_uk_deterministic_2km"),
 
     ]);
 
@@ -51,17 +87,23 @@ pub(crate) fn format_string(
     longitude: f64,
     variables: Vec<String>,
     model: &str,
-    days: i32
+    days: i32,
+    wind_speed_units: &str,
+    temperature_units: &str,
+    precipitation_units: &str
                 ) -> String {
 
     let joined_vars = variables.join(",");
 
     let selected_model = get_model(model);
 
+    let wind_units = wind_speed_unit(wind_speed_units);
+
     let url = format!("https://api.open-meteo.com/v1/forecast?\
     latitude={latitude}&longitude={longitude}&\
     hourly={joined_vars}&\
-    models={selected_model}&forecast_days={days}");
+    models={selected_model}&forecast_days={days}\
+    &wind_speed_unit={wind_units}&temperature_unit={temperature_units}&precipitation_unit={precipitation_units}");
 
     url
 

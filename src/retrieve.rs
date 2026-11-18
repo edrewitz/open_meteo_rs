@@ -18,7 +18,7 @@ struct ApiResponse {
     hourly: BTreeMap<String, Value>,
 }
 
-// Fetches the latest point weather forecast data for a given model at a given latitude/longitude
+// Fetches the latest hourly point weather forecast data for a given model at a given latitude/longitude
 // 
 // Arguments:
 // 1) latitude (f64) - The latitude in decimal degrees. 
@@ -43,16 +43,27 @@ struct ApiResponse {
 // **Returns**
 // 
 // A Polars DataFrame of the requested data. 
-pub fn fetch_weather_forecast(
+pub fn fetch_hourly_weather_forecast(
     latitude: f64,
     longitude: f64,
     variables: Vec<String>,
     model: &str,
     days: i32,
+    wind_speed_units: &str,
+    temperature_units: &str,
+    precipitation_units: &str,
     proxy: Option<&str>
                 ) -> Result<DataFrame, Box<dyn std::error::Error>> {
 
-    let url = format_string(latitude, longitude, variables, model, days);
+    let url = format_string(latitude, 
+        longitude, 
+        variables, 
+        model, 
+        days,
+        wind_speed_units,
+        temperature_units,
+        precipitation_units
+    );
     let client = if let Some(proxy_url) = proxy {
         let proxy_obj = Proxy::all(proxy_url)?;
         reqwest::blocking::Client::builder()
