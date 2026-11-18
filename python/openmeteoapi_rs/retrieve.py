@@ -5,10 +5,10 @@ This file is our Python interface with the client's Rust core.
 """
 import pandas as pd
 
-from ._core import get_forecast
+from ._core import get_forecast as fetch_forecast
 
 
-def fetch_forecast(latitude,
+def get_forecast(latitude,
                    longitude,
                    variables=["temperature_2m"],
                    model="ecmwf_ifs025",
@@ -20,7 +20,7 @@ def fetch_forecast(latitude,
     Retrieves our weather data from the Open-Meteo API
     """
     
-    df = get_forecast(latitude,
+    df = fetch_forecast(latitude,
                       longitude,
                       variables,
                       model,
