@@ -18,64 +18,31 @@ struct ApiResponse {
     hourly: BTreeMap<String, Value>,
 }
 
-/// Fetches the latest point weather forecast data for a given model at a given latitude/longitude
-/// 
-/// Arguments:
-/// 1) latitude (f64) - The latitude in decimal degrees. 
-///     (+) Values = Northern Hemisphere
-///     (-) Values = Southern Hemisphere
-/// 
-/// 2) Longitude (f64) - The longitude in decimal degrees.
-///     (+) Values = Eastern Hemisphere
-///     (-) Values = Western Hemisphere
-/// 
-/// 3) variables (Vec<String>) - The list of variables.
-/// 
-/// 4) model (&str) - The forecast model.
-/// 
-/// 5) days (i32) - The amount of days for the forecast to go out. 
-/// 
-/// 6) proxy (Option<&str>) - Set to None if you are not using a proxy server connection.
-///     If you are using a proxy server connection define it here 
-/// 
-///     Example: proxy:https://proxy-server-address:proxy-server-port
-/// 
-/// # Examples
-/// 
-/// ```
-/// // Retrieve the GFS 0.25x0.25 Degree 2-Meter Temperature and 2-Meter Relative Humidity Forecasts for 7 days at Islip Mac Arthur Airport
-///
-/// // Imports
-/// use crate::retrieve::fetch_weather_forecast;
-/// 
-/// // Latitude = 40.79°N
-/// let latitude: f64 = 40.79;
-/// 
-/// // Longitude = 73.10°W
-/// let longitude: f64 = -73.10;
-/// 
-/// // Define our variables
-/// let variables: Vec<String> = vec!["temperature_2m".to_string(), 
-///                                   "relative_humidity_2m".to_string()];
-/// 
-/// // Define our model as the GFS 0.25x0.25 Degree
-/// let model = "ncep gfs global";
-/// 
-/// // Define our days as 7 so the forecast spans 7 days
-/// let days: i32 = 7;
-/// 
-/// // Set proxy=None since we are not using a proxy server
-/// let proxy = None;
-/// 
-/// // Make our request and retrieve our weather forecast data
-/// 
-/// let df = fetch_weather_df(latitude, longitude, variables, model, days, proxy)?;
-/// 
-/// // Prints our dataframe to the screen
-/// println!("{}", df);
-/// 
-/// ```
-///     
+// Fetches the latest point weather forecast data for a given model at a given latitude/longitude
+// 
+// Arguments:
+// 1) latitude (f64) - The latitude in decimal degrees. 
+//     (+) Values = Northern Hemisphere
+//     (-) Values = Southern Hemisphere
+// 
+// 2) Longitude (f64) - The longitude in decimal degrees.
+//     (+) Values = Eastern Hemisphere
+//     (-) Values = Western Hemisphere
+// 
+// 3) variables (Vec<String>) - The list of variables.
+// 
+// 4) model (&str) - The forecast model.
+// 
+// 5) days (i32) - The amount of days for the forecast to go out. 
+// 
+// 6) proxy (Option<&str>) - Set to None if you are not using a proxy server connection.
+//     If you are using a proxy server connection define it here 
+// 
+//     Example: proxy:https://proxy-server-address:proxy-server-port
+// 
+// **Returns**
+// 
+// A Polars DataFrame of the requested data. 
 pub fn fetch_weather_forecast(
     latitude: f64,
     longitude: f64,
