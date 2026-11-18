@@ -27,6 +27,7 @@ use crate::retrieve::fetch_weather_forecast;
 ///     If you are using a proxy server connection define it here 
 /// 
 ///     Example: `proxy:https://proxy-server-address:proxy-server-port`
+/// 
 /// **Returns**
 /// 
 /// A Polars DataFrame of the requested data. 
