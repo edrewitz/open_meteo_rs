@@ -79,6 +79,17 @@ def get_hourly_forecast(
         "soil_moisture_1_to_3cm"
         "soil_moisture_9_to_27cm"
         "soil_moisture_27_to_81cm"
+        "uv_index"
+        "uv_index_clear_sky"
+        "is_day"
+        "sunshine_duration"
+        "wet_bulb_temperature_2m"
+        "total_column_integrated_water_vapour"
+        "cape"
+        "lifted_index"
+        "convective_inhibition"
+        "freezing_level_height"
+        "boundary_layer_height"
         
     model: str
         Weather Forecast Model Selection.
