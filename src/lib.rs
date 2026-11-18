@@ -10,7 +10,9 @@ mod format_url;
 mod retrieve;
 mod dataframe;
 
+#[cfg(feature = "python")]
 use pyo3::prelude::*;
+
 use polars::prelude::*;
 use crate::retrieve::fetch_weather_forecast;
 
@@ -119,7 +121,8 @@ mod tests {
 
 
 
-// A Python module implemented in Rust.
+// Python Bindings
+#[cfg(feature = "python")]
 #[pymodule]
 mod _core {
 
@@ -147,3 +150,5 @@ mod _core {
 
     }
 }
+
+

@@ -20,3 +20,4 @@ dependencies = [
 [tool.maturin]
 python-source = "python"
 module-name = "openmeteoapi_rs._core"
+features = ["python"]
