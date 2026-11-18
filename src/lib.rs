@@ -1,3 +1,11 @@
+//! # openmeteoapi_rs
+//! ***(C) Eric J. Drewitz 2026***
+//! 
+//! A Rust interface for retrieving data from Open-Meteo API. 
+//! This package also has Python bindings.
+
+
+
 mod format_url;
 mod retrieve;
 mod dataframe;
