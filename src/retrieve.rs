@@ -14,6 +14,11 @@ use std::collections::BTreeMap;
 use reqwest::Proxy;
 
 #[derive(Debug, Deserialize)]
+struct OpenMeteoError {
+    reason: String,
+}
+
+#[derive(Debug, Deserialize)]
 struct ApiResponse {
     hourly: BTreeMap<String, Value>,
 }
@@ -75,8 +80,21 @@ pub fn fetch_hourly_weather_forecast(
 
     let response = client
         .get(url)
-        .send()?
-        .error_for_status()?; // Returns Err(reqwest::Error) on 4xx or 5xx
+        .send()?; // Response
+
+    let status = response.status();
+    
+    if !status.is_success() {
+        let body = response.text().unwrap_or_default();
+
+        // Try to parse Open-Meteo's specific JSON "reason" message
+        if let Ok(api_err) = serde_json::from_str::<OpenMeteoError>(&body) {
+            return Err(format!("Open-Meteo API Error ({}): {}", status, api_err.reason).into());
+        }
+
+        // Fallback if the server returned plain text or HTML instead of JSON
+        return Err(format!("HTTP Request Failed ({}): {}", status, body).into());
+    }
 
     let parsed: ApiResponse = response.json()?;
     
